@@ -1,0 +1,10 @@
+htm_movie_all:
+    path:     /movie
+    defaults: { _controller: HTMCinemaBundle:Cinema:movie }
+    
+htm_movie_singlepage:
+    path:     /movie/{id}
+    defaults: { _controller: HTMCinemaBundle:Cinema:single }
+    requirements:
+        id: \d+
+    

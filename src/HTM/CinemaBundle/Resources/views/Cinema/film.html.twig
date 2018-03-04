@@ -1,0 +1,75 @@
+{% extends "HTMCoreBundle::layout.html.twig" %}
+
+{% block title %}
+  Movie - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="col-sm-8 col-md-9">
+	<h2 class="page-heading">Movies</h2>
+	
+	<!-- MOVIE SORTED CONTENT -->
+	<div class="tags-area">
+        <div class="tags tags--unmarked">
+            <span class="tags__label">Sorted by:</span>
+            <ul>
+                <li class="item-wrap"><a href="#" class="tags__item item-active" data-filter='all'>all</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='release'>release date</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='popularity'>popularity</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='comments'>comments</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='ending'>ending soon</a></li>
+            </ul>
+        </div>
+    </div>
+    {% for key,film in list_film %}
+		<div class="movie movie--preview release">
+        	<div class="col-sm-5 col-md-3">
+                <div class="movie__images">
+                    <img alt='' src="./../images/cinema/{{ film.imagemain }}">
+                </div>
+                <div class="movie__feature">
+                    <a href="#" class="movie__feature-item movie__feature--comment">123</a>
+                    <a href="#" class="movie__feature-item movie__feature--video">7</a>
+                    <a href="#" class="movie__feature-item movie__feature--photo">352</a>
+                </div>
+            </div>
+    
+            <div class="col-sm-7 col-md-9">
+                <a href='{{ path('htm_movie_singlepage', {'id': film.id}) }}' class="movie__title link--huge">{{ film.name }}</a>
+    
+                <p class="movie__time">{{ film.duration }} min</p>
+    
+                <p class="movie__option"><strong>Category: </strong><a href="#">{{ film.category }}</a></p>
+                <p class="movie__option"><strong>Release date: </strong>{#{ film.date }#}</p>
+                <p class="movie__option"><strong>Director: </strong><a href="#">{{ film.director }}</a></p>
+                <p class="movie__option"><strong>Actors: </strong> {{ film.actors }}</p>
+                <p class="movie__option"><strong>Age restriction: </strong><a href="#">{{ film.age }}</a></p>
+    
+                <div class="movie__btns">
+                    <a href="#" class="btn btn-md btn--warning">book a ticket <span class="hidden-sm">for this movie</span></a>
+                    <a href="#" class="watchlist">Add to watchlist</a>
+                </div>
+    
+                <div class="preview-footer">
+                    <div class="movie__rate"><div class="score"></div><span class="movie__rate-number">170 votes</span> <span class="movie__rating">5.0</span></div>
+                </div>
+            </div>
+        </div>
+	{% endfor %}
+    <div class="coloum-wrapper">
+        <div class="pagination paginatioon--full">
+            <a href='#' class="pagination__prev">prev</a>
+            <a href='#' class="pagination__next">next</a>
+        </div>
+    </div>
+    
+</div>
+<aside class="col-sm-4 col-md-3">
+	<div class="sitebar">
+        <!-- COMMING SOON -->
+        {{ render(controller("HTMCinemaBundle:Cinema:commingsoon")) }}
+        <!-- MODT DISCUSSED -->
+        {{ render(controller("HTMCinemaBundle:Cinema:mostdiscussed")) }}
+    </div>
+</aside>
+{% endblock %}

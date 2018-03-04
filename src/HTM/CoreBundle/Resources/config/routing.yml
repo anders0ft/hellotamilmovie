@@ -1,0 +1,4 @@
+htm_core_home:
+    path: /
+    defaults:
+        _controller: HTMCoreBundle:Core:index

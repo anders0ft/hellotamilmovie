@@ -1,0 +1,15 @@
+clé API :
+847b7a8ba04ee696366eb5a68ba62cff
+
+Jeton d'accès en lecture à l'API (v4 auth) :
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NDdiN2E4YmEwNGVlNjk2MzY2ZWI1YTY4YmE2MmNmZiIsInN1YiI6IjVhOGYwMTU4YzNhMzY4NjY2NjAwMTBkMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OGqY4HwClo2DKQt94Mmau46QEeDSLx7WjfBf3ll16Hk
+
+Exemple de requête API
+https://api.themoviedb.org/3/movie/550?api_key=847b7a8ba04ee696366eb5a68ba62cff
+
+
+
+
+language":"ta"
+
+https://api.themoviedb.org/3/discover/movie?api_key=847b7a8ba04ee696366eb5a68ba62cff&language=ta&primary_release_year=2016&

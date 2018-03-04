@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+        <title>{% block title %}Hello Tamil Movie{% endblock %}</title>
+        <meta name="description" content="Best tamil movie">
+        <meta name="keywords" content="movie, short film, review">
+        <meta name="author" content="anderson">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="telephone=no" name="format-detection">
+        
+        <!-- FONTS -->
+        <!-- Font awesome - icon font -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- Roboto -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,700' rel='stylesheet' type='text/css'>
+        <!-- Open Sans -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:800italic' rel='stylesheet' type='text/css'>
+        
+        
+        {% block stylesheets %}
+        <link href="../../web/css/external/jquery-ui.css" rel="stylesheet">
+        
+        <!-- Mobile menu -->
+        <link href="../../web/css/gozha-nav.css" rel="stylesheet" />
+        <!-- Select -->
+        <link href="../../web/css/external/jquery.selectbox.css" rel="stylesheet" />
+        
+        <!-- Swiper slider -->
+        <link href="../../web/css/external/idangerous.swiper.css" rel="stylesheet" />
+        <!-- Magnific-popup -->
+        <link href="../../web/css/external/magnific-popup.css" rel="stylesheet" />
+
+        <!-- Slider Revolution CSS Files -->
+        <link rel="stylesheet" type="text/css" href="../../web/revolution/css/settings.css">
+        <link rel="stylesheet" type="text/css" href="../../web/revolution/css/layers.css">
+        <link rel="stylesheet" type="text/css" href="../../web/revolution/css/navigation.css">
+    
+        <!-- Custom -->
+        <link href="../../web/css/style.css?v=1" rel="stylesheet" />
+        {% endblock %}
+        
+        <!-- Modernizr --> 
+        <script src="../../web/js/external/modernizr.custom.js"></script>
+        
+        
+     </head>
+     <body>
+     	
+     	<div class="wrapper">
+     		<!-- Header section -->
+        	<header class="header-wrapper {% if app.request.get('_route')  == "htm_core_home" %} header-wrapper--home {% endif %}">
+        		<div class="container">
+        			<!-- Logo link-->
+                    <a href='{{ path('htm_core_home') }}' class="logo">
+                        <img alt='logo' src="../../web/images/logo.png">
+                    </a>
+                    <!-- Generating Menu content -->
+                    {{ render(controller("HTMCoreBundle:Core:menu")) }}
+                    
+                	<!-- Additional header buttons / Auth and direct link to booking-->
+                    <div class="control-panel">
+                        <a href="#" class="btn btn-md btn--warning btn--book btn-control--home login-window">Connexion</a>
+                    </div>
+        		</div>
+        	</header>
+        	
+        	<!-- Genatating Slider -->
+        	{% if  app.request.get('_route')  == "htm_core_home" %}
+        	    {{ render(controller("HTMCinemaBundle:Cinema:slider")) }}
+        	{% endif %}
+        	
+        	<!-- Main content -->
+        	<section class="container">
+        		<!-- Genaration Today Best Choice content -->
+        		{% if  app.request.get('_route')  == "htm_core_home" %}
+                    {{ render(controller("HTMCinemaBundle:Cinema:todayschoice")) }}
+                {% endif %}
+                
+    	     	{% block body %}
+                {% endblock %}
+        	</section>
+        	
+        	<div class="clearfix"></div>
+        	
+    		<!-- Including footer content -->
+            {% include "HTMCoreBundle:Core:footer.html.twig" %}
+     	</div>
+     	
+        {% block javascripts %}
+          	<!-- jQuery 3.1.1--> 
+            <script type="text/javascript" src="../../web/js/external/jquery-3.1.1.min.js"></script>
+            <!-- Migrate --> 
+            <script src="../../web/js/external/jquery-migrate-1.2.1.min.js"></script>
+            <!-- jQuery UI -->
+        	<script src="../../web/js/external/jquery-ui.js"></script>
+            <!-- Bootstrap 3--> 
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    
+            <!-- Slider Revolution core JavaScript files -->
+            <script type="text/javascript" src="../../web/revolution/js/jquery.themepunch.tools.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    
+            <!-- Slider Revolution extension scripts. --> 
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+            <script type="text/javascript" src="../../web/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    
+            <!-- Mobile menu -->
+            <script src="../../web/js/jquery.mobile.menu.js"></script>
+             <!-- Select -->
+            <script src="../../web/js/external/jquery.selectbox-0.2.min.js"></script>
+            <!-- Stars rate -->
+            <script src="../../web/js/external/jquery.raty.js"></script>
+            <!-- Swiper slider -->
+        	<script src="../../web/js/external/idangerous.swiper.min.js"></script>
+        	<!-- Magnific-popup -->
+        	<script src="../../web/js/external/jquery.magnific-popup.min.js"></script> 
+        	
+            
+            <!-- Form element -->
+            <script src="../../web/js/external/form-element.js"></script>
+            <!-- Form validation -->
+            <script src="../../web/js/form.js"></script>
+    
+            <!-- Twitter feed -->
+            <!-- >script src="../../web/js/external/twitterfeed.js"></script -->
+    
+            <!-- Custom -->
+            <script src="../../web/js/custom.js"></script>
+		
+            <script type="text/javascript">
+            {% if  app.request.get('_route')  == "htm_core_home" %}
+              $(document).ready(function() {
+                init_Home();
+              });
+            {% endif %}
+            {% if  app.request.get('_route')  == "htm_movie_all" %}
+              $(document).ready(function() {
+                  init_MovieList();
+              });
+            {% endif %}
+            {% if  app.request.get('_route')  == "htm_movie_singlepage" %}
+              $(document).ready(function() {
+                  init_MoviePage();
+              });
+            {% endif %}
+            </script>
+        {% endblock %}
+     </body>
+</html>

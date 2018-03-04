@@ -1,0 +1,13 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: hellotamilmovie
+    database_user: root
+    database_password: cacher**
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 22ae710fba09c4f8fe8855df9350f09facb735ee

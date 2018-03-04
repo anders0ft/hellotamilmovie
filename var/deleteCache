@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf cache logs sessions
+mkdir cache logs sessions
+chmod 777 cache logs sessions

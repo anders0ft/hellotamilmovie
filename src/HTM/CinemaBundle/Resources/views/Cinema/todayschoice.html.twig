@@ -1,0 +1,25 @@
+<div class="movie-best">
+     <div class="col-sm-10 col-sm-offset-1 movie-best__rating">Today Best choice</div>
+     <div class="col-sm-12 change--col">
+         {% for key,film in list_film %}
+     		<div class="movie-beta__item {{ cssmobile[key] }}">
+                <img alt='' src="../../web/images/cinema/{{ film.imagemain }}">
+                 <span class="best-rate">{{ film.stars }}</span>
+    
+                 <ul class="movie-beta__info">
+                     <li><span class="best-voted">71 people voted today</span></li>
+                     <li>
+                        <p class="movie__time">{{ film.duration }} min</p>
+                        <p>{{ film.category }}</p>
+                        <p>38 comments</p>
+                     </li>
+                     <li class="last-block">
+                         <a href="{{ path('htm_movie_singlepage', {'id': film.id}) }}" class="slide__link">more</a>
+                     </li>
+                 </ul>
+             </div>
+     	{% endfor %}
+     </div>
+    <div class="col-sm-10 col-sm-offset-1 movie-best__check">check all movies now playing</div>
+</div>
+<div class="clearfix"></div>

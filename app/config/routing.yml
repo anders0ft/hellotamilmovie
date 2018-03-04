@@ -1,0 +1,5 @@
+htm_cinema:
+    resource: "@HTMCinemaBundle/Resources/config/routing.yml"
+
+htm_core:
+    resource: "@HTMCoreBundle/Resources/config/routing.yml"
