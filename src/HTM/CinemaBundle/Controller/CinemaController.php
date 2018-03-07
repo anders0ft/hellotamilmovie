@@ -75,7 +75,40 @@ class CinemaController extends Controller
 				    	->getRepository('HTMCinemaBundle:Film')
 				    	->findFilmByInCinema();
     	
-    	return $this->render('HTMCinemaBundle:Cinema:nowincinema.html.twig', array('film_in_cinema' =>  $filmInCinema));
+    	$cssContent = array();
+    	$j = $k = 0;
+    	for($i=0; $i<10; $i++)
+    	{
+    		if($j == 4)
+    		{
+    			$j = 0;
+    		}
+    		if($j < 2)
+    		{
+    			if ($j == 0)
+    			{
+    				$cssContent[] = "movie--test--dark movie--test--left";
+    			}
+    			else
+    			{
+    				$cssContent[] = "movie--test--light movie--test--left";
+    			}
+    		}
+    		else
+    		{
+    			if($j == 2)
+    			{
+    				$cssContent[] = "movie--test--light movie--test--right";
+    			}
+    			else 
+    			{
+    				$cssContent[] = "movie--test--dark movie--test--right";
+    			}
+    		}
+    		$j++;
+    	}
+    	
+		return $this->render('HTMCinemaBundle:Cinema:nowincinema.html.twig', array('film_in_cinema' =>  $filmInCinema, 'cssmobile' => $cssContent));
     }
     
     public function newsAction()

@@ -472,4 +472,28 @@ class Film
     {
         return $this->imagesingleview;
     }
+
+    /**
+     * Set imagenow
+     *
+     * @param string $imagenow
+     *
+     * @return Film
+     */
+    public function setImagenow($imagenow)
+    {
+        $this->imagenow = $imagenow;
+
+        return $this;
+    }
+
+    /**
+     * Get imagenow
+     *
+     * @return string
+     */
+    public function getImagenow()
+    {
+        return $this->imagenow;
+    }
 }

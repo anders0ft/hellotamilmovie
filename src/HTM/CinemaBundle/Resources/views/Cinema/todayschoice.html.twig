@@ -4,7 +4,7 @@
          {% for key,film in list_film %}
      		<div class="movie-beta__item {{ cssmobile[key] }}">
                 <img alt='' src="../../web/images/cinema/{{ film.imagemain }}">
-                 <span class="best-rate">{{ film.stars }}</span>
+                 <span class="best-rate">{{ film.stars|number_format(1, '.', '') }}</span>
     
                  <ul class="movie-beta__info">
                      <li><span class="best-voted">71 people voted today</span></li>
@@ -14,7 +14,7 @@
                         <p>38 comments</p>
                      </li>
                      <li class="last-block">
-                         <a href="{{ path('htm_movie_singlepage', {'id': film.id}) }}" class="slide__link">more</a>
+                         <a href="{{ path('htm_movie_singlepage', {'id': film.id}) }}" class="slide__link" style="width:82px;">more</a>
                      </li>
                  </ul>
              </div>

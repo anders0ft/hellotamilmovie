@@ -1,5 +1,5 @@
 {% for key,film in film_in_cinema %}
-<div class="movie movie--test movie--test--dark movie--test--left">
+<div class="movie movie--test {{ cssmobile[key] }}">
     <div class="movie__images">
         <a href="{{ path('htm_movie_singlepage', {'id': film.id}) }}" class="movie-beta__link">
             <img alt='' src="../../web/images/cinema/{{ film.imagenow }}">
@@ -15,7 +15,7 @@
         
         <div class="movie__rate">
             <div class="score"></div>
-            <span class="movie__rating">{{ film.stars }}</span>
+            <span class="movie__rating" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>
         </div>               
     </div>
 </div>
