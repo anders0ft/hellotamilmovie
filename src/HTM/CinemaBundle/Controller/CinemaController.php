@@ -3,6 +3,7 @@
 namespace HTM\CinemaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Request;
 
 class CinemaController extends Controller
 {
@@ -23,7 +24,7 @@ class CinemaController extends Controller
 			    	->getRepository('HTMCinemaBundle:Film')
 			    	->findFilmByID($id);
     	
-    	return $this->render('HTMCinemaBundle:Cinema:single.html.twig');
+    	return $this->render('HTMCinemaBundle:Cinema:single.html.twig', array('film' => $film));
     }
     
     public function photosvideosAction()
@@ -80,30 +81,19 @@ class CinemaController extends Controller
     	for($i=0; $i<10; $i++)
     	{
     		if($j == 4)
-    		{
     			$j = 0;
-    		}
-    		if($j < 2)
-    		{
+    		
+    		if($j < 2) {
     			if ($j == 0)
-    			{
     				$cssContent[] = "movie--test--dark movie--test--left";
-    			}
     			else
-    			{
     				$cssContent[] = "movie--test--light movie--test--left";
-    			}
     		}
-    		else
-    		{
+    		else {
     			if($j == 2)
-    			{
     				$cssContent[] = "movie--test--light movie--test--right";
-    			}
     			else 
-    			{
     				$cssContent[] = "movie--test--dark movie--test--right";
-    			}
     		}
     		$j++;
     	}
@@ -115,4 +105,31 @@ class CinemaController extends Controller
     {
     	return $this->render('HTMCinemaBundle:Cinema:news.html.twig');
     }
+    
+    public function voteAction()
+    {
+    	extract($_POST);
+    	echo "Appel Normal $vote son id : $id";exit;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

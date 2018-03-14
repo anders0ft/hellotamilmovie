@@ -314,19 +314,29 @@ function init_Home() {
                         $(this).parent().find('.active-dropdown').css("z-index", '-1');
                     });
 
-                    $('body').click( function (e){
+                    /*$('body').click( function (e){
                       console.log(e.target);
-                    })
+                    })*/
 
     //4. Rating scrore init
     //Rating star
-    $('.score').raty({
-        width:130, 
-        score: 0,
-        path: './../images/rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
+    // JQUERY RATY for NowInCinema
+	var scoreClasses = $('div[class*="score_"]');
+	var rateClasses = $('span[class*="rate_"]');
+	var rate = [];
+	for(var i = 0; i<rateClasses.length; i++)
+	{
+		$(scoreClasses[i]).raty({
+	        width:130, 
+	        score: $(rateClasses[i]).data('rate'),
+	        click : function(number, evt){
+	        	saveVote(number, $(this).data('id'));
+	  	  	},
+	        path: './../images/rate/',
+	        starOff : 'star-off.svg',
+	        starOn  : 'star-on.svg' 
+	    });
+	}
 
     //5. Scroll down navigation function
     //scroll down
@@ -1024,13 +1034,20 @@ function init_MovieList () {
 
     //3. Rating scrore init
     //Rating star
-    $('.score').raty({
-        width:130, 
-        score: 0,
-        path: './../images/rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
+    // JQUERY RATY for Movie Page
+	var scoreClasses = $('div[class*="score_"]');
+	var rateClasses = $('span[class*="rate_"]');
+	var rate = [];
+	for(var i = 0; i<rateClasses.length; i++)
+	{
+		$(scoreClasses[i]).raty({
+	        width:130, 
+	        score: $(rateClasses[i]).data('rate'),
+	        path: './../images/rate/',
+	        starOff : 'star-off.svg',
+	        starOn  : 'star-on.svg' 
+	    });
+	}
 
     //4. Sorting by category
     			// sorting function
@@ -1071,7 +1088,7 @@ function init_MovieList () {
                 });
 }
 
-function init_MoviePage () {
+function init_MoviePage (p_path) {
     "use strict";
 
 	//1. Rating scrore init
@@ -1079,7 +1096,7 @@ function init_MoviePage () {
     $('.score').raty({
         width:130, 
         score: 5,
-        path: './../images/rate/',
+        path: p_path + 'rate/',
         starOff : 'star-off.svg',
         starOn  : 'star-on.svg' 
     });

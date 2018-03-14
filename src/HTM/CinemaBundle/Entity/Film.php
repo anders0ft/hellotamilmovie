@@ -99,9 +99,9 @@ class Film
     private $shortfilm;
     
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="stars", type="integer")
+     * @ORM\Column(name="stars", type="float")
      */
     private $stars;
     
@@ -404,7 +404,7 @@ class Film
     /**
      * Set stars
      *
-     * @param integer $stars
+     * @param float $stars
      *
      * @return Film
      */
@@ -418,7 +418,7 @@ class Film
     /**
      * Get stars
      *
-     * @return integer
+     * @return float
      */
     public function getStars()
     {

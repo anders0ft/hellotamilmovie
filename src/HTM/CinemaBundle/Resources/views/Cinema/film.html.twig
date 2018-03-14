@@ -25,7 +25,7 @@
 		<div class="movie movie--preview release">
         	<div class="col-sm-5 col-md-3">
                 <div class="movie__images">
-                    <img alt='' src="./../images/cinema/{{ film.imagemain }}">
+                    <img alt='' src="{{ asset('images/cinema/') }}{{ film.imagemain }}">
                 </div>
                 <div class="movie__feature">
                     <a href="#" class="movie__feature-item movie__feature--comment">123</a>
@@ -51,7 +51,11 @@
                 </div>
     
                 <div class="preview-footer">
-                    <div class="movie__rate"><div class="score"></div><span class="movie__rate-number">170 votes</span> <span class="movie__rating">5.0</span></div>
+                    <div class="movie__rate">
+                    <div class="score score_{{ film.id }}"></div>
+                    <span class="movie__rate-number">170 votes</span> 
+                    <span class="movie__rating rate_{{ film.id }}" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>
+                    </div>
                 </div>
             </div>
         </div>

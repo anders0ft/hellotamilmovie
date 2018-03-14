@@ -2,7 +2,7 @@
 <div class="movie movie--test {{ cssmobile[key] }}">
     <div class="movie__images">
         <a href="{{ path('htm_movie_singlepage', {'id': film.id}) }}" class="movie-beta__link">
-            <img alt='' src="../../web/images/cinema/{{ film.imagenow }}">
+            <img alt='' src="{{ asset('images/cinema/') }}{{ film.imagenow }}">
         </a>
     </div>
 
@@ -11,11 +11,13 @@
 
         <p class="movie__time">{{ film.duration }} min</p>
 
-        <p class="movie__option">{{ film.category }}</p>
+        <p class="movie__option" style="font-weight:bold;">{{ film.category }}</p>
+        
+        <p class="movie__option">{{ film.actors }}</p>
         
         <div class="movie__rate">
-            <div class="score"></div>
-            <span class="movie__rating" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>
+            <div class="score score_{{ film.id }}" data-id="{{ film.id }}"></div>
+            <span class="movie__rating rate_{{ film.id }}" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>
         </div>               
     </div>
 </div>

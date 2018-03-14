@@ -7,4 +7,8 @@ htm_movie_singlepage:
     defaults: { _controller: HTMCinemaBundle:Cinema:single }
     requirements:
         id: \d+
+
+htm_movie_vote:
+    path:     /movie/vote
+    defaults: { _controller: HTMCinemaBundle:Cinema:vote }
     

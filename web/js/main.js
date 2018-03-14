@@ -1,16 +1,16 @@
 
+// Enregistrement de vote
+function saveVote(p_vote, p_id)
+{
 
-
-var movieRate = $("#now-in-cinema.movie.movie__info.movie__rate span");
-
-
-
-
-$('#now-in-cinema').each(function () {
-    //var valRate = $(this).data('rate');
-    
-    console.log("---------------------");
-    //console.log($(this)[0].children[0]lastElementChild);
-    console.log($(this)[0].children);
-    console.log("---------------------");
-});
+	console.log("TSSSS : " + p_id);
+	$.ajax({
+		url: "movie/vote",
+        type: 'POST',
+        data: {"vote":p_vote, "id":p_id},
+        success: function (data, textStatus, jqXHR) 
+        {
+        	console.log(data);
+        }
+    });
+}

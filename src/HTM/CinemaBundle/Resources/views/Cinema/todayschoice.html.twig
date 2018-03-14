@@ -3,7 +3,7 @@
      <div class="col-sm-12 change--col">
          {% for key,film in list_film %}
      		<div class="movie-beta__item {{ cssmobile[key] }}">
-                <img alt='' src="../../web/images/cinema/{{ film.imagemain }}">
+                <img alt='' src="{{ asset('images/cinema/') }}{{ film.imagemain }}">
                  <span class="best-rate">{{ film.stars|number_format(1, '.', '') }}</span>
     
                  <ul class="movie-beta__info">
