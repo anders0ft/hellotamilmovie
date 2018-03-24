@@ -34,9 +34,9 @@ $('#contact-form').submit(function(e) {
 		var error = 0;
 		var self = $(this);
 		
-	    var $name = self.find('[name=user-name]');
+	    var $name = self.find('#htm_corebundle_contact_name');
 	    var $email = self.find('[type=email]');
-	    var $message = self.find('[name=user-message]');
+	    var $message = self.find('#htm_corebundle_contact_message');
 		
 				
 		var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -65,15 +65,17 @@ $('#contact-form').submit(function(e) {
 		
 		
 		if (error!=0)return;
+		
+		// Pour désactivier le bouton
 		self.find('[type=submit]').attr('disabled', 'disabled');
 
-		self.children().fadeOut(300,function(){ $(this).remove() })
+		self.children().fadeOut(300,function(){ $(this).hide() })
 		$('<p class="success"><span class="success-huge">Thank you!</span> <br> your message successfully sent</p>').appendTo(self)
 		.hide().delay(300).fadeIn();
-
-
+		
 		var formInput = self.serialize();
-		$.post(self.attr('action'),formInput, function(data){}); // end post
+		$.post(self.attr('action'), formInput, function(data){}); // end post
+
 }); // end submit
 
 $('.login').submit(function(e) {

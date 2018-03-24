@@ -2,3 +2,10 @@ htm_core_home:
     path: /
     defaults:
         _controller: HTMCoreBundle:Core:index
+
+        
+htm_core_contact:
+  path: /contact
+  defaults:
+    _controller: HTMCoreBundle:Core:contact
+    

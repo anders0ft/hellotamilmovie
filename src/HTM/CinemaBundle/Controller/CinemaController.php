@@ -3,7 +3,11 @@
 namespace HTM\CinemaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
+//use Symfony\Component\BrowserKit\Request;
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\JsonResponse;
+use HTM\CinemaBundle\Entity\Vote;
+use HTM\CinemaBundle\Entity\Film;
 
 class CinemaController extends Controller
 {
@@ -106,10 +110,24 @@ class CinemaController extends Controller
     	return $this->render('HTMCinemaBundle:Cinema:news.html.twig');
     }
     
-    public function voteAction()
+    public function voteAction(Request $request)
     {
     	extract($_POST);
-    	echo "Appel Normal $vote son id : $id";exit;
+    	if ($request->isMethod('POST') and $request->isXmlHttpRequest())
+    	{
+    		$em = $this->getDoctrine()->getManager();
+    		$vote = new Vote();
+    		$vote->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
+    		$vote->setRate($rate);
+    		$em->persist($vote);
+    		$em->flush();
+    		return new JsonResponse(['message' => "SUCCES"]);
+    	}
+    	else 
+    	{
+    		throw new NotFoundHttpException();
+    	}
+    	
     }
 }
 

@@ -3,6 +3,11 @@
 namespace HTM\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use \Symfony\Component\HttpFoundation\Request;
+use HTM\CoreBundle\Entity\Contact;
+use HTM\CoreBundle\Form\ContactType;
+use HTM\CoreBundle\HTMCoreBundle;
+use HTM;
 
 class CoreController extends Controller
 {
@@ -26,9 +31,27 @@ class CoreController extends Controller
     	return $this->render('HTMCoreBundle:Core:slide.html.twig', array('list_slide' => $listSlide));
     }
     
-    public function todayschoiceAction()
+    public function contactAction(Request $request)
     {
-    
-    	return $this->render('HTMCoreBundle:Core:todayschoice.html.twig');
+    	$contact = new Contact();
+    	// On récupère l'adresse IP d'utilisateur 
+    	$addressIp = $request->getClientIp();
+    	$contact->setIpaddress($addressIp);
+    	// On crée le FormBuilder grâce au service form factory
+    	$form = $this->createForm(HTM\CoreBundle\Form\ContactType::class, $contact);
+    	// On valide les infos saisies par les utilisateurs
+    	if ($form->handleRequest($request)->isValid())
+    	{
+    		$em = $this->getDoctrine()->getManager();
+    		$em->persist($contact);
+    		$em->flush();
+    		
+    		//$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistréeeeee.');
+    		 
+    		// Redirection si tout est OK
+    		return $this->redirect($this->generateUrl('htm_core_home'));
+    	}
+    	// On envoit le formulaire à la vure
+    	return $this->render('HTMCoreBundle:Core:contact.html.twig', array('form' => $form->createView()));
     }
 }
