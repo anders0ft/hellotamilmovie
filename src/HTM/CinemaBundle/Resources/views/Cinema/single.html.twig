@@ -15,7 +15,7 @@
                     <span class="movie__rating">{{ film[0].stars }}</span>
                     <img alt='' src="{{ asset('images/cinema/') }}{{ film[0].imagesingleview }}">
                 </div>
-                <div class="movie__rate">Your vote: <div id='score' class="score"></div></div>
+                <div class="movie__rate">Your vote: {{ render(controller("HTMCinemaBundle:Cinema:raty", {'idFilm': film[0].id})) }}</div>
             </div>
 
             <div class="col-sm-6 col-md-8">

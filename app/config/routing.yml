@@ -1,3 +1,6 @@
+htm_user:
+    resource: "@HTMUserBundle/Resources/config/routing.yml"
+
 htm_cinema:
     resource: "@HTMCinemaBundle/Resources/config/routing.yml"
 

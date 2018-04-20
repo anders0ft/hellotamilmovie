@@ -8,6 +8,10 @@ use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use HTM\CinemaBundle\Entity\Vote;
 use HTM\CinemaBundle\Entity\Film;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\SecurityContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
 
 class CinemaController extends Controller
 {
@@ -23,6 +27,11 @@ class CinemaController extends Controller
     
     public function singleAction($id)
     {
+    	/*if(!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR'))
+    	{
+    		// Sinon on déclenche une exception « Accès interdit »
+    		throw new AccessDeniedException('Accès limité aux auteurs.');
+    	}*/
     	$film = $this->getDoctrine()
 			    	->getManager()
 			    	->getRepository('HTMCinemaBundle:Film')
@@ -115,19 +124,67 @@ class CinemaController extends Controller
     	extract($_POST);
     	if ($request->isMethod('POST') and $request->isXmlHttpRequest())
     	{
-    		$em = $this->getDoctrine()->getManager();
-    		$vote = new Vote();
-    		$vote->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
-    		$vote->setRate($rate);
-    		$em->persist($vote);
-    		$em->flush();
-    		return new JsonResponse(['message' => "SUCCES"]);
+    		$user = $this->getUser();
+    		if($user == null)
+    		{
+    			return new JsonResponse(['message' => "LOGIN"]);
+    		}
+    		else 
+    		{
+    			$user->setRoles("");
+    			$userId = $user->getId();
+    			$idVote = $this	->getDoctrine()
+				    			->getManager()
+				    			->getRepository('HTMCinemaBundle:Vote')
+				    			->findByUserAndFilm($userId, $id);
+    			
+    			$em = $this->getDoctrine()->getManager();
+    			// Cas où l'utilisateur n'a jamais voté pour ce film
+    			if (empty($idVote[0]['id']))
+    			{
+    				$vote = new Vote();
+    				$vote->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
+    				$vote->setUser($user);
+    				$vote->setRate($rate);
+    				$em->persist($vote);
+    			}
+    			else
+    			{
+    				$vote = $em->getRepository('HTMCinemaBundle:Vote')->find($idVote[0]['id']);
+    				$vote->setRate($rate);
+    				$vote->setDate(new \DateTime());
+    			}
+    			$em->flush();
+    			return new JsonResponse(['message' => "SUCCES"]);
+    		}
     	}
     	else 
     	{
     		throw new NotFoundHttpException();
     	}
     	
+    }
+    
+    public function ratyAction($idFilm)
+    {
+    	$user = $this->getUser();
+    	if($user != null)
+    	{
+    		$userId = $user->getId();
+    		$rate = $this	->getDoctrine()
+					    	->getManager()
+					    	->getRepository('HTMCinemaBundle:Vote')
+					    	->findRateByUserAndFilm($userId, $idFilm);
+    	}
+    	
+    	if (!empty($rate))
+    	{
+    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate[0]['rate'], 'filmId' => $idFilm));
+    	}
+    	else 
+    	{
+    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('filmId' => $idFilm));
+    	}
     }
 }
 

@@ -26,6 +26,12 @@ class Vote
      * @ORM\JoinColumn(nullable=false)
      */
     private $film;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="HTM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /**
      * @var float
@@ -33,6 +39,18 @@ class Vote
      * @ORM\Column(name="rate", type="float", nullable=true)
      */
     private $rate;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+    
+    public function __construct()
+    {
+    	$this->date = new \DateTime();
+    }
 
 
     /**
@@ -91,5 +109,53 @@ class Vote
     public function getFilm()
     {
         return $this->film;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Vote
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \HTM\UserBundle\Entity\User $user
+     *
+     * @return Vote
+     */
+    public function setUser(\HTM\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \HTM\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

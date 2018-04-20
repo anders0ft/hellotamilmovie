@@ -78,21 +78,21 @@ $('#contact-form').submit(function(e) {
 
 }); // end submit
 
-$('.login').submit(function(e) {
+/*$('.login').submit(function(e) {
       
 		e.preventDefault();	
 		var error = 0;
 		var self = $(this);
 		
-	    var $email = self.find('[type=email]');
-	    var $pass = self.find('[type=password]');
+	    var $username = self.find('#user-id-input');
+	    var $pass = self.find('#user-password');
 		
-				
-		var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		
-  		if(!emailRegex.test($email.val())) {
-			createErrTult("Error! Wrong email!", $email)
-			error++;	
+  		
+		if( $username.val().length>1 &&  $username.val()!= $username.attr('placeholder')  ) {
+			$username.removeClass('invalid_field');			
+		}else {
+			createErrTult('Error! Write your name!', $username)
+			error++;
 		}
 
 		if( $pass.val().length>1 &&  $pass.val()!= $pass.attr('placeholder')  ) {
@@ -113,9 +113,9 @@ $('.login').submit(function(e) {
 		.hide().delay(300).fadeIn();
 
 
-		// var formInput = self.serialize();
-		// $.post(self.attr('action'),formInput, function(data){}); // end post
-}); // end submit
+		 var formInput = self.serialize();
+		 $.post(self.attr('action'),formInput, function(data){}); // end post
+});*/ // end submit
 		
 		
 

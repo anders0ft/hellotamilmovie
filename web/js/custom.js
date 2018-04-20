@@ -321,22 +321,7 @@ function init_Home() {
     //4. Rating scrore init
     //Rating star
     // JQUERY RATY for NowInCinema
-	var scoreClasses = $('div[class*="score_"]');
-	var rateClasses = $('span[class*="rate_"]');
-	var rate = [];
-	for(var i = 0; i<rateClasses.length; i++)
-	{
-		$(scoreClasses[i]).raty({
-	        width:130, 
-	        score: $(rateClasses[i]).data('rate'),
-	        click : function(number, evt){
-	        	saveVote(number, $(this).data('id'));
-	  	  	},
-	        path: './../images/rate/',
-	        starOff : 'star-off.svg',
-	        starOn  : 'star-on.svg' 
-	    });
-	}
+	
 
     //5. Scroll down navigation function
     //scroll down
@@ -1032,23 +1017,6 @@ function init_MovieList () {
                      }
                 });
 
-    //3. Rating scrore init
-    //Rating star
-    // JQUERY RATY for Movie Page
-	var scoreClasses = $('div[class*="score_"]');
-	var rateClasses = $('span[class*="rate_"]');
-	var rate = [];
-	for(var i = 0; i<rateClasses.length; i++)
-	{
-		$(scoreClasses[i]).raty({
-	        width:130, 
-	        score: $(rateClasses[i]).data('rate'),
-	        path: './../images/rate/',
-	        starOff : 'star-off.svg',
-	        starOn  : 'star-on.svg' 
-	    });
-	}
-
     //4. Sorting by category
     			// sorting function
                 $('.tags__item').click(function (e) {
@@ -1093,13 +1061,7 @@ function init_MoviePage (p_path) {
 
 	//1. Rating scrore init
     //Rating star
-    $('.score').raty({
-        width:130, 
-        score: 5,
-        path: p_path + 'rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
+
 
     //2. Swiper slider
     //Media slider
@@ -1430,7 +1392,7 @@ function init_MoviePageFull () {
                  });
 }
 
-function init_Rates () {
+/*function init_Rates () {
     "use strict";
 
 	//1. Rating fucntion
@@ -1449,7 +1411,7 @@ function init_Rates () {
 
                     $(this).html('<span class="rates__done">Thanks for your vote!<span>')
                 })
-}
+}*/
 
 function init_Cinema () {
     "use strict";

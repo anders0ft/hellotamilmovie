@@ -61,7 +61,11 @@
                     
                 	<!-- Additional header buttons / Auth and direct link to booking-->
                     <div class="control-panel">
-                        <a href="#" class="btn btn-md btn--warning btn--book btn-control--home login-window">Connexion</a>
+                    	{% if app.user %}
+                    		<span style="color:white;">Hello {{ app.user.username }}</span><span style="color:white;margin-left:10px;">|</span><a href="{{ path('fos_user_security_logout') }}" class="btn btn--sign">Sign out</a>
+                    	{% else %}
+                    		<a href="{{ path('fos_user_security_login') }}" class="btn btn--sign">Sign In</a>
+                    	{% endif %}
                     </div>
         		</div>
         	</header>
@@ -87,6 +91,9 @@
     		<!-- Including footer content -->
             {% include "HTMCoreBundle:Core:footer.html.twig" %}
      	</div>
+     	
+        <!-- Including footer content -->
+        {% include "HTMCoreBundle:Core:sign.html.twig" %}
      	
         {% block javascripts %}
           	<!-- jQuery 3.1.1--> 
@@ -157,7 +164,5 @@
             {% endif %}
             </script>
         {% endblock %}
-        <!-- Including footer content -->
-        {% include "HTMCoreBundle:Core:sign.html.twig" %}
      </body>
 </html>
