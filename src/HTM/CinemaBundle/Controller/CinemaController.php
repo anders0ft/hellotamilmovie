@@ -8,10 +8,14 @@ use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use HTM\CinemaBundle\Entity\Vote;
 use HTM\CinemaBundle\Entity\Film;
+use HTM\CinemaBundle\Event\VoteUpdateEvent;
+use HTM\CinemaBundle\Event\CinemaEvents;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
+
+
 
 class CinemaController extends Controller
 {
@@ -131,12 +135,16 @@ class CinemaController extends Controller
     		}
     		else 
     		{
-    			$user->setRoles("");
+    			//$user->setRoles("");
     			$userId = $user->getId();
     			$idVote = $this	->getDoctrine()
 				    			->getManager()
 				    			->getRepository('HTMCinemaBundle:Vote')
 				    			->findByUserAndFilm($userId, $id);
+    		    // On crée l'évènement
+    		    $event = new VoteUpdateEvent($id, $rate);
+                // On déclenche l'évènement UPDATE_VOTE
+    		    $this->get('event_dispatcher')->dispatch(CinemaEvents::UPDATE_VOTE, $event);
     			
     			$em = $this->getDoctrine()->getManager();
     			// Cas où l'utilisateur n'a jamais voté pour ce film

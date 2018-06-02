@@ -29,4 +29,14 @@ class VoteRepository extends \Doctrine\ORM\EntityRepository
 					->getQuery()
 					->getResult();
 	}
+	
+	public function getAvgRate($idFilm)
+	{
+	    return $this->createQueryBuilder('v')
+            	    ->select("avg(v.rate)")
+            	    ->where('v.film = :film')
+            	    ->setParameters(array('film'=>$idFilm))
+            	    ->getQuery()
+            	    ->getResult();
+	}
 }
