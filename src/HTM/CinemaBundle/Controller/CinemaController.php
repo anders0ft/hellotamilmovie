@@ -8,10 +8,14 @@ use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use HTM\CinemaBundle\Entity\Vote;
 use HTM\CinemaBundle\Entity\Film;
+use HTM\CinemaBundle\Event\VoteUpdateEvent;
+use HTM\CinemaBundle\Event\CinemaEvents;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
+
+
 
 class CinemaController extends Controller
 {
@@ -118,7 +122,12 @@ class CinemaController extends Controller
     {
     	return $this->render('HTMCinemaBundle:Cinema:news.html.twig');
     }
-    
+
+    /**
+     * Cette action est lancée lorsque un utilisateur connecté vote
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function voteAction(Request $request)
     {
     	extract($_POST);
@@ -131,15 +140,15 @@ class CinemaController extends Controller
     		}
     		else 
     		{
-    			$user->setRoles("");
+    			//$user->setRoles("");
     			$userId = $user->getId();
     			$idVote = $this	->getDoctrine()
 				    			->getManager()
 				    			->getRepository('HTMCinemaBundle:Vote')
 				    			->findByUserAndFilm($userId, $id);
-    			
+
     			$em = $this->getDoctrine()->getManager();
-    			// Cas où l'utilisateur n'a jamais voté pour ce film
+    			// Le cas où l'utilisateur n'a jamais voté pour ce film
     			if (empty($idVote[0]['id']))
     			{
     				$vote = new Vote();
@@ -155,7 +164,12 @@ class CinemaController extends Controller
     				$vote->setDate(new \DateTime());
     			}
     			$em->flush();
-    			return new JsonResponse(['message' => "SUCCES"]);
+
+                // On crée l'évènement
+                $event = new VoteUpdateEvent($id, $rate);
+                // On déclenche l'évènement UPDATE_VOTE
+                $this->get('event_dispatcher')->dispatch(CinemaEvents::UPDATE_VOTE, $event);
+                return new JsonResponse(['message' => "SUCCES"]);
     		}
     	}
     	else 

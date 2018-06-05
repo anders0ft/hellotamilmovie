@@ -1,0 +1,39 @@
+{% extends "HTMUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+{% if app.user %}
+    <section class="container">
+        <div class="contact">
+        	<p class="contact__title"><span class="contact__describe">Hello {{ app.user.username }}</span></p>
+            <p class="contact__title">You have any questions or need help, <br><span class="contact__describe">don’t be shy and <a style="font-size:22px;color:red;" href="{{ path('htm_core_contact') }}">contact us</a></span></p>
+            <span class="contact__mail">support@hellotamilmovie.com</span>
+            <span class="contact__tel">support@hellotamilmovie.com</span>
+        </div>
+    </section>
+{% else %}
+    <form id="login-form" class="login" novalidate='' action="{{ path("fos_user_security_check") }}" method="post">
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+        <p class="login__title">sign in <br><span class="login-edition">welcome to Hello Tamil Movie Web Site</span></p>
+    	{% if error %}
+    		<p class="login__title"><span class="login-error">Login Failed! The username and/or password was incorrect. Please try again.</span></p>
+        {% endif %}
+        <div class="field-wrap">
+        <input id="user-id-input" type='text' placeholder='Username' name='_username' class="login__input" value="{{ last_username }}">
+        <input id="user-password" type="password" id="password" name="_password" placeholder='Password' class="login__input">
+    
+        <input type='checkbox' id='#informed' class='login__check styled'>
+        <label for='#informed' class='login__check-info'>remember me</label>
+         </div>
+        
+        <div class="login__control">
+            <button type='submit' class="btn btn-md btn--warning btn--wider">sign in</button>
+            <a href="{{ path('fos_user_resetting_request') }}" class="login__tracker form__tracker">Forgot password ?</a>
+            <a href="{{ path('fos_user_registration_register') }}" class="login__tracker form__tracker">New member ?</a>
+        </div>
+    </form>
+{% endif %}
+{% endblock %}

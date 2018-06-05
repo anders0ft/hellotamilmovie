@@ -1,0 +1,11 @@
+{% extends "AndersoftUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+<section class="andersoft-form andersoft-form-confirmed">
+{{ 'resetting.check_email'|trans({'%email%': email}) }}
+<img width="100%" src="/images/logo_gray.png" />
+</section>
+{% endblock %}

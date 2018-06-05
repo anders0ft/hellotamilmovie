@@ -1,0 +1,14 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<header class="andersoft-header">
+	<h2>Modification du mot de passe</h2>
+</header>
+<section>
+	{{ form_errors(form) }}
+	<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset andersoft-form andersoft-form-register">
+	    {{ form_widget(form) }}
+	    <br />
+	    <div>
+	        <input class="button" type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
+	    </div>
+	</form>
+</section>

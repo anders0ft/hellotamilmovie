@@ -1,0 +1,17 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<section>
+	<form id="login-form" class="login" novalidate='' action="{{ path("fos_user_resetting_send_email") }}" method="post">
+		<p class="login__title">Forgot your password ?<br><br><span class="login-edition">Enter the email address associated with your account, then click Send.</span></p>
+        {% if invalid_username is defined %}
+            <p class="login__title"><span class="login-error">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</span></p>
+        {% endif %}
+        <div class="field-wrap">
+        	<input id="user-id-input" type='text' placeholder='Your mail id' name='_username' class="login__input" required="required" >
+		</div>
+		<br>
+        <div class="login__control">
+            <button type='submit' class="btn btn-md btn--warning btn--wider">send</button>
+        </div>
+    </form>
+</section>
