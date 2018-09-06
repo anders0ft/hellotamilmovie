@@ -1,21 +1,21 @@
 # src/HTM/CinemaBundle/Resources/config/services.yml
 
 services:
-  
+
     htm_cinema.beta.html_adder:
         class: HTM\CinemaBundle\Beta\BetaHTMLAdder
-        
+
     htm_cinema.beta.listener:
         class: HTM\CinemaBundle\Beta\BetaListener
-        arguments: 
+        arguments:
             - "@htm_cinema.beta.html_adder"
             - "2018-04-01"
         tags:
             - { name: kernel.event_listener, event: kernel.response,   method: processBeta }
-            
+
     htm_cinema.listner.update_stars:
         class: HTM\CinemaBundle\Listner\UpdateStars
-    
+
     htm_cinema.listner.rate_listener:
         class: HTM\CinemaBundle\Listner\RateListner
         arguments:
@@ -23,4 +23,3 @@ services:
             - "@htm_cinema.listner.update_stars"
         tags:
             - { name: kernel.event_listener, event: htm_cinema.update_vote,   method: processRate }
-        
