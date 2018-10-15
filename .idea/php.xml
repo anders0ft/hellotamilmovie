@@ -47,4 +47,16 @@
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="5.5.0" />
+  <component name="PhpStepFilterConfiguration">
+    <skipped_functions>
+      <skipped_function name="HTM\CinemaBundle\Controller\CinemaController-&gt;commentsAction" />
+      <skipped_function name="Symfony\Component\HttpKernel\HttpKernel-&gt;handleRaw" />
+    </skipped_functions>
+    <option name="skippedFunctions">
+      <list>
+        <option value="HTM\CinemaBundle\Controller\CinemaController-&gt;commentsAction" />
+        <option value="Symfony\Component\HttpKernel\HttpKernel-&gt;handleRaw" />
+      </list>
+    </option>
+  </component>
 </project>

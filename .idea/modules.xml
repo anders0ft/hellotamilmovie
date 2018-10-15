@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../andersoft/.idea/andersoft.iml" filepath="$PROJECT_DIR$/../andersoft/.idea/andersoft.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hellotamilmovie.iml" filepath="$PROJECT_DIR$/.idea/hellotamilmovie.iml" />
     </modules>
   </component>

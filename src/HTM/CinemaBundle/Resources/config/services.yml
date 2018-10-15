@@ -2,16 +2,16 @@
 
 services:
 
-    htm_cinema.beta.html_adder:
-        class: HTM\CinemaBundle\Beta\BetaHTMLAdder
+#    htm_cinema.beta.html_adder:
+#        class: HTM\CinemaBundle\Beta\BetaHTMLAdder
 
-    htm_cinema.beta.listener:
-        class: HTM\CinemaBundle\Beta\BetaListener
-        arguments:
-            - "@htm_cinema.beta.html_adder"
-            - "2018-04-01"
-        tags:
-            - { name: kernel.event_listener, event: kernel.response,   method: processBeta }
+#    htm_cinema.beta.listener:
+#        class: HTM\CinemaBundle\Beta\BetaListener
+#        arguments:
+#            - "@htm_cinema.beta.html_adder"
+#            - "2018-04-01"
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.response,   method: processBeta }
 
     htm_cinema.listner.update_stars:
         class: HTM\CinemaBundle\Listner\UpdateStars

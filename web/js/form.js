@@ -37,8 +37,7 @@ $('#contact-form').submit(function(e) {
 	    var $name = self.find('#htm_corebundle_contact_name');
 	    var $email = self.find('[type=email]');
 	    var $message = self.find('#htm_corebundle_contact_message');
-		
-				
+	    console.log("Name : " + $name);
 		var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 		
   		if(!emailRegex.test($email.val())) {

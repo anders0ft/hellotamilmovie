@@ -34,23 +34,27 @@ class CoreController extends Controller
     public function contactAction(Request $request)
     {
     	$contact = new Contact();
+
     	// On récupère l'adresse IP d'utilisateur 
     	$addressIp = $request->getClientIp();
     	$contact->setIpaddress($addressIp);
+
     	// On crée le FormBuilder grâce au service form factory
-    	$form = $this->createForm(HTM\CoreBundle\Form\ContactType::class, $contact);
-    	// On valide les infos saisies par les utilisateurs
-    	if ($form->handleRequest($request)->isValid())
-    	{
-    		$em = $this->getDoctrine()->getManager();
-    		$em->persist($contact);
-    		$em->flush();
-    		
-    		//$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistréeeeee.');
-    		 
-    		// Redirection si tout est OK
-    		return $this->redirect($this->generateUrl('htm_core_home'));
-    	}
+        $form = $this->createForm(ContactType::class, $contact);
+
+        $validForm = $form->handleRequest($request)->isValid();
+        $postForm = $request->isMethod('POST');
+
+        if ($validForm && $postForm){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
+            //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistréeeeee.');
+
+            // Redirection si tout est OK
+            return $this->redirect($this->generateUrl('htm_core_home'));
+        }
     	// On envoit le formulaire à la vure
     	return $this->render('HTMCoreBundle:Core:contact.html.twig', array('form' => $form->createView()));
     }

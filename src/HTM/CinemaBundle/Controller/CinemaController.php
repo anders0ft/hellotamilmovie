@@ -2,6 +2,9 @@
 
 namespace HTM\CinemaBundle\Controller;
 
+use Doctrine\DBAL\Types\TextType;
+use HTM\CinemaBundle\Entity\Comments;
+use HTM\CinemaBundle\Form\CommentsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Symfony\Component\BrowserKit\Request;
 use \Symfony\Component\HttpFoundation\Request;
@@ -59,9 +62,24 @@ class CinemaController extends Controller
     	return $this->render('HTMCinemaBundle:Cinema:mostdiscussed.html.twig');
     }
     
-    public function commentsAction()
+    public function commentsAction(Request $request, $id)
     {
-    	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $comment = new Comments();
+
+        $comment->setComment('BLBBLBLBLLBLBLBLB');
+        $comment->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
+
+        $form = $this->createForm(CommentsType::class, $comment);
+
+        $validForm = $form->handleRequest($request)->isValid();
+        $postForm = $request->isMethod('POST');
+
+        if ($validForm && $postForm){
+            var_dump('SUCCESS !!!');
+        }
+        // On envoit le formulaire à la vure
+    	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig', array('form' => $form->createView()));
     }
     
     public function sliderAction()
@@ -138,7 +156,7 @@ class CinemaController extends Controller
     		{
     			return new JsonResponse(['message' => "LOGIN"]);
     		}
-    		else 
+    		else
     		{
     			//$user->setRoles("");
     			$userId = $user->getId();

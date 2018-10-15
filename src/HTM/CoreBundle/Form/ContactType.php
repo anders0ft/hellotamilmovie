@@ -2,7 +2,9 @@
 
 namespace HTM\CoreBundle\Form;
 
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -15,7 +17,9 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('email', EmailType::class)->add('message');
+        $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class)
+                ->add('email', EmailType::class)
+                ->add('message', TextareaType::class);
     }
     
     /**
@@ -35,6 +39,5 @@ class ContactType extends AbstractType
     {
         return 'htm_corebundle_contact';
     }
-
 
 }
