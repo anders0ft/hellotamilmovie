@@ -9,7 +9,9 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="telephone=no" name="format-detection">
-        
+
+        <!-- jQuery 3.1.1-->
+        <script type="text/javascript" src="{{ asset('js/external/jquery-3.1.1.min.js') }}"></script>
         <!-- FONTS -->
         <!-- Font awesome - icon font -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -96,8 +98,7 @@
         {% include "HTMCoreBundle:Core:sign.html.twig" %}
      	
         {% block javascripts %}
-          	<!-- jQuery 3.1.1--> 
-            <script type="text/javascript" src="{{ asset('js/external/jquery-3.1.1.min.js') }}"></script>
+
             <!-- Migrate --> 
             <script src="{{ asset('js/external/jquery-migrate-1.2.1.min.js') }}"></script>
             <!-- jQuery UI -->

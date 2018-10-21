@@ -50,10 +50,10 @@ class CoreController extends Controller
             $em->persist($contact);
             $em->flush();
 
-            //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistréeeeee.');
+            $request->getSession()->getFlashBag()->add('notice', 'your message successfully sent');
 
             // Redirection si tout est OK
-            return $this->redirect($this->generateUrl('htm_core_home'));
+            return $this->redirect($this->generateUrl('htm_core_contact'));
         }
     	// On envoit le formulaire à la vure
     	return $this->render('HTMCoreBundle:Core:contact.html.twig', array('form' => $form->createView()));

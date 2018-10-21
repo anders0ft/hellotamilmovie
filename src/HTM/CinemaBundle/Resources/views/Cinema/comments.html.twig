@@ -2,22 +2,21 @@
 <h2 class="page-heading">comments (15)</h2>
 
 <div class="comment-wrapper">
-    {#{ form_start(form, {'attr': {'class': 'comment-form', 'id':'comment-form'} }) }}
-
-        {{ form_widget(form.comment, {'attr': {'class': 'comment-form__text', 'name':'user-comment', 'placeholder':'Add you comment here'}}) }}
-
-        <label class="comment-form__info">250 characters left</label>
-        <button type='submit' class="btn btn-md btn--danger comment-form__btn">add comment</button>
-
-    {{ form_end(form) }#}
-
-    {{ form_start(form) }}
-
+    {{ form_start(form, {'attr': {'class': 'comment-form', 'id':'comment-form'} }) }}
+    {# Les erreurs générales du formulaire. #}
     {{ form_errors(form) }}
 
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {{ form_widget(form.comment, {'attr': {'class': 'comment-form__text', 'name':'user-comment', 'placeholder':'Add you comment here'}}) }}
 
+
+    {{ form_widget(form.sendComment, {'attr': {'class': 'btn btn-md btn--danger comment-form__btn'}}) }}
     {{ form_rest(form) }}
+
+    {{ form_end(form) }}
 </div>
 </div>
+
+{# Message de confirmation #}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <p>{{ flashMessage }}</p>
+{% endfor %}

@@ -2,7 +2,8 @@
 
 namespace HTM\CinemaBundle\Form;
 
-use Doctrine\DBAL\Types\TextType;
+use HTM\CinemaBundle\Entity\Film;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,8 +18,8 @@ class CommentsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('comment', TextareaType::class)
-                ->add('save', SubmitType::class);
+        $builder->add('comment', TextareaType::class, array('required' => true))
+                ->add('sendComment', SubmitType::class, array('label' => 'add comment'));
     }
 
     /**

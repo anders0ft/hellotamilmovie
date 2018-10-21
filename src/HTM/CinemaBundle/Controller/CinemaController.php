@@ -2,21 +2,16 @@
 
 namespace HTM\CinemaBundle\Controller;
 
-use Doctrine\DBAL\Types\TextType;
+
 use HTM\CinemaBundle\Entity\Comments;
 use HTM\CinemaBundle\Form\CommentsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\BrowserKit\Request;
+
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use HTM\CinemaBundle\Entity\Vote;
-use HTM\CinemaBundle\Entity\Film;
 use HTM\CinemaBundle\Event\VoteUpdateEvent;
 use HTM\CinemaBundle\Event\CinemaEvents;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\SecurityContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
 
 
 
@@ -62,12 +57,12 @@ class CinemaController extends Controller
     	return $this->render('HTMCinemaBundle:Cinema:mostdiscussed.html.twig');
     }
     
-    public function commentsAction(Request $request, $id)
+    public function commentsAction(Request $request)
     {
+        $id = 1;
         $em = $this->getDoctrine()->getManager();
         $comment = new Comments();
 
-        $comment->setComment('BLBBLBLBLLBLBLBLB');
         $comment->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
 
         $form = $this->createForm(CommentsType::class, $comment);
@@ -76,7 +71,14 @@ class CinemaController extends Controller
         $postForm = $request->isMethod('POST');
 
         if ($validForm && $postForm){
-            var_dump('SUCCESS !!!');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'your comment successfully sent');
+
+            // Redirection si tout est OK
+            return $this->redirect($this->generateUrl('htm_movie_singlepage'));
         }
         // On envoit le formulaire à la vure
     	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig', array('form' => $form->createView()));
@@ -115,20 +117,25 @@ class CinemaController extends Controller
     	$j = $k = 0;
     	for($i=0; $i<10; $i++)
     	{
-    		if($j == 4)
+    		if($j == 4){
     			$j = 0;
+            }
     		
     		if($j < 2) {
-    			if ($j == 0)
+    			if ($j == 0){
     				$cssContent[] = "movie--test--dark movie--test--left";
-    			else
+                }
+    			else{
     				$cssContent[] = "movie--test--light movie--test--left";
+                }
     		}
     		else {
-    			if($j == 2)
+    			if($j == 2){
     				$cssContent[] = "movie--test--light movie--test--right";
-    			else 
+                }
+    			else {
     				$cssContent[] = "movie--test--dark movie--test--right";
+                }
     		}
     		$j++;
     	}
@@ -149,15 +156,12 @@ class CinemaController extends Controller
     public function voteAction(Request $request)
     {
     	extract($_POST);
-    	if ($request->isMethod('POST') and $request->isXmlHttpRequest())
-    	{
+    	if ($request->isMethod('POST') and $request->isXmlHttpRequest()) {
     		$user = $this->getUser();
-    		if($user == null)
-    		{
+    		if($user == null) {
     			return new JsonResponse(['message' => "LOGIN"]);
     		}
-    		else
-    		{
+    		else {
     			//$user->setRoles("");
     			$userId = $user->getId();
     			$idVote = $this	->getDoctrine()
@@ -167,16 +171,14 @@ class CinemaController extends Controller
 
     			$em = $this->getDoctrine()->getManager();
     			// Le cas où l'utilisateur n'a jamais voté pour ce film
-    			if (empty($idVote[0]['id']))
-    			{
+    			if (empty($idVote[0]['id'])) {
     				$vote = new Vote();
     				$vote->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
     				$vote->setUser($user);
     				$vote->setRate($rate);
     				$em->persist($vote);
     			}
-    			else
-    			{
+    			else {
     				$vote = $em->getRepository('HTMCinemaBundle:Vote')->find($idVote[0]['id']);
     				$vote->setRate($rate);
     				$vote->setDate(new \DateTime());
@@ -190,8 +192,7 @@ class CinemaController extends Controller
                 return new JsonResponse(['message' => "SUCCES"]);
     		}
     	}
-    	else 
-    	{
+    	else {
     		throw new NotFoundHttpException();
     	}
     	
@@ -200,8 +201,7 @@ class CinemaController extends Controller
     public function ratyAction($idFilm)
     {
     	$user = $this->getUser();
-    	if($user != null)
-    	{
+    	if($user != null) {
     		$userId = $user->getId();
     		$rate = $this	->getDoctrine()
 					    	->getManager()
@@ -209,12 +209,10 @@ class CinemaController extends Controller
 					    	->findRateByUserAndFilm($userId, $idFilm);
     	}
     	
-    	if (!empty($rate))
-    	{
+    	if (!empty($rate)) {
     		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate[0]['rate'], 'filmId' => $idFilm));
     	}
-    	else 
-    	{
+    	else {
     		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('filmId' => $idFilm));
     	}
     }
