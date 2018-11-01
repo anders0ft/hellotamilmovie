@@ -56,21 +56,21 @@ class CinemaController extends Controller
     {
     	return $this->render('HTMCinemaBundle:Cinema:mostdiscussed.html.twig');
     }
-    
-    public function commentsAction(Request $request)
+
+    /**
+     * Action sera appelée lors d'ajout d'un commentaire
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function commentsAction(Request $request, $id)
     {
-        $id = 1;
         $em = $this->getDoctrine()->getManager();
         $comment = new Comments();
+        $film = $em->getReference('HTMCinemaBundle:Film', $id);
+        $comment->setFilm($film);
+        $form = $this->createForm(CommentsType::class, $comment, array('action' => $this->generateUrl('htm_movie_comment', array('id' => $id))));
 
-        $comment->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
-
-        $form = $this->createForm(CommentsType::class, $comment);
-
-        $validForm = $form->handleRequest($request)->isValid();
-        $postForm = $request->isMethod('POST');
-
-        if ($validForm && $postForm){
+        if ($form->handleRequest($request)->isValid() && $request->isMethod('POST')){
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
@@ -78,10 +78,23 @@ class CinemaController extends Controller
             $request->getSession()->getFlashBag()->add('notice', 'your comment successfully sent');
 
             // Redirection si tout est OK
-            return $this->redirect($this->generateUrl('htm_movie_singlepage'));
+            return $this->redirect($this->generateUrl('htm_movie_singlepage', array('id' => $id)));
         }
-        // On envoit le formulaire à la vure
+
+        // On envoit le formulaire à la vue
     	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig', array('form' => $form->createView()));
+    }
+
+    public function commentsListAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $film = $em->getReference('HTMCinemaBundle:Film', $id);
+
+        $commentsList = array();
+        $commentsList = $em->getRepository('HTMCinemaBundle:Comments')->findBy(array('film' => $film));
+
+        return $this->render('HTMCinemaBundle:Cinema:commentslist.html.twig',
+                                    array('comments_list' => $commentsList, 'number_of_comments' => count($commentsList)));
     }
     
     public function sliderAction()
@@ -159,7 +172,7 @@ class CinemaController extends Controller
     	if ($request->isMethod('POST') and $request->isXmlHttpRequest()) {
     		$user = $this->getUser();
     		if($user == null) {
-    			return new JsonResponse(['message' => "LOGIN"]);
+    			return new JsonResponse(array('message' => "LOGIN"));
     		}
     		else {
     			//$user->setRoles("");
