@@ -4580,7 +4580,7 @@ ul#navigation a:hover {
   margin-left: -15px;
 }
 .comment-form {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 .comment-form .comment-form__text {
   width: 100%;
@@ -4606,8 +4606,10 @@ ul#navigation a:hover {
 }
 .comment {
   position: relative;
-  border-top: 1px solid #f5f5f5;
   padding-top: 30px;
+}
+.border-block{
+  border-bottom: 1px solid #e0d3d3;
 }
 .comment .comment__images {
   float: left;
@@ -4620,7 +4622,6 @@ ul#navigation a:hover {
   line-height: 20px;
   font-weight: bold;
   position: relative;
-  padding-left: 23px;
   overflow: hidden;
 }
 .comment .comment__date {
@@ -4641,6 +4642,7 @@ ul#navigation a:hover {
   right: 0;
   font-size: 14px;
   color: #fe505a;
+  cursor: pointer;
 }
 .comment .comment__reply:before {
   content: "\f112";
@@ -8738,7 +8740,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   padding-right: 0;
 }
 .comment--answer {
-  padding-left: 30px;
+  padding-left: 55px;
 }
 .comment--answer:before {
   content: "\f178";
@@ -8746,7 +8748,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   color: #4c4145;
   position: absolute;
   top: 50%;
-  left: 7px;
+  left: 4%;
   margin-top: -3px;
 }
 .comment-more {

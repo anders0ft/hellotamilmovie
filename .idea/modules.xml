@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../andersoft/.idea/andersoft.iml" filepath="$PROJECT_DIR$/../andersoft/.idea/andersoft.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hellotamilmovie.iml" filepath="$PROJECT_DIR$/.idea/hellotamilmovie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../test/.idea/test.iml" filepath="$PROJECT_DIR$/../test/.idea/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../urgence/.idea/urgence.iml" filepath="$PROJECT_DIR$/../urgence/.idea/urgence.iml" />
     </modules>
   </component>
 </project>

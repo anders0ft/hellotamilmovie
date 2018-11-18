@@ -11,4 +11,17 @@ htm_movie_singlepage:
 htm_movie_vote:
     path:     /movie/vote
     defaults: { _controller: HTMCinemaBundle:Cinema:vote }
+
+htm_movie_comment:
+    path:     /movie/comments/{iIdFilm}/{iIdCommentParent}
+    defaults: { _controller: HTMCinemaBundle:Cinema:comments}
+    requirements:
+            iIdFilm: \d+
+
+htm_movie_comment_list:
+    path:     /movie/comments_list/{iIdFilm}/{iIdCommentParent}
+    defaults: { _controller: HTMCinemaBundle:Cinema:commentsList}
+    requirements:
+                iIdFilm: \d+
+                iIdCommentParent: \d+
     

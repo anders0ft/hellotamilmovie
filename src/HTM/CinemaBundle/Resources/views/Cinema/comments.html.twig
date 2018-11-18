@@ -1,7 +1,6 @@
-<div class="choose-container">
-<h2 class="page-heading">comments (15)</h2>
 
-<div class="comment-wrapper">
+<div class="comment-wrapper" {% if actif == 0 %}style="display: none"{% endif %} {% if parent_id is not empty %} id="comment-block-{{ parent_id }}" {% endif %}>
+
     {{ form_start(form, {'attr': {'class': 'comment-form', 'id':'comment-form'} }) }}
     {# Les erreurs générales du formulaire. #}
     {{ form_errors(form) }}
@@ -13,10 +12,13 @@
     {{ form_rest(form) }}
 
     {{ form_end(form) }}
-</div>
-</div>
 
-{# Message de confirmation #}
-{% for flashMessage in app.session.flashbag.get('notice') %}
-    <p>{{ flashMessage }}</p>
-{% endfor %}
+    {# Message de confirmation #}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="alert alert-success">
+            <span class='icon-flag'></span>
+        {{ flashMessage }}
+    </div>
+    {% endfor %}
+
+</div>

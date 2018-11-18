@@ -52,6 +52,7 @@
     
                 <div class="preview-footer">
                     <div class="movie__rate">
+                        {#{{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': film.id})) }}#}
                         <div class="score score_{{ film.id }}" data-id="{{ film.id }}"></div>
                         <span class="movie__rate-number">170 votes</span> 
                         <span class="movie__rating rate_{{ film.id }}" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>

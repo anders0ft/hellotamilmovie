@@ -1259,7 +1259,7 @@ function init_MoviePage (p_path) {
                 })
 
                   //reply comment function
-                  $('.comment__reply').click( function (e) {
+                  /*$('.comment__reply').click( function (e) {
                         e.preventDefault();
 
                         $('.comment').find('.comment-form').remove();
@@ -1268,7 +1268,7 @@ function init_MoviePage (p_path) {
                             <label class='comment-form__info'>250 characters left</label>\
                             <button type='submit' class='btn btn-md btn--danger comment-form__btn'>add comment</button>\
                         </form>");
-                  });
+                  });*/
 
     //7. Timetable active element
     			$('.time-select__item').click(function (){

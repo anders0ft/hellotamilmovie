@@ -15,7 +15,7 @@
                     <span class="movie__rating">{{ film[0].stars }}</span>
                     <img alt='' src="{{ asset('images/cinema/') }}{{ film[0].imagesingleview }}">
                 </div>
-                <div class="movie__rate">Your vote: {{ render(controller("HTMCinemaBundle:Cinema:raty", {'idFilm': film[0].id})) }}</div>
+                <div class="movie__rate">Your vote: {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': film[0].id})) }}</div>
             </div>
 
             <div class="col-sm-6 col-md-8">
@@ -54,20 +54,37 @@
 		
 		<!-- PHOTOS & VIDEOS Slider -->
 		{{ render(controller("HTMCinemaBundle:Cinema:photosvideos")) }}
-		
-		<!-- COMMENTS -->
-        {{ render(controller("HTMCinemaBundle:Cinema:comments")) }}
+
+        <div class="choose-container">
+
+            <h2 class="page-heading">comments <span id="number-comments"></span></h2>
+            <!-- COMMENTS -->
+            {{ render(controller("HTMCinemaBundle:Cinema:comments", {'iIdFilm': film[0].id, 'iIdCommentParent' : null, 'bVisible': true})) }}
+
+            <!-- COMMENTS LIST -->
+            {{ render(controller("HTMCinemaBundle:Cinema:commentsList", {'iIdFilm': film[0].id})) }}
+
+        </div>
 		
 	</div>
 </div>
 <aside class="col-sm-4 col-md-3">
 <div class="sitebar">
-    
     <!-- COMMING SOON -->
     {{ render(controller("HTMCinemaBundle:Cinema:commingsoon")) }}
+
     <!-- MODT DISCUSSED -->
     {{ render(controller("HTMCinemaBundle:Cinema:mostdiscussed")) }}
-
 </div>
 </aside>
+
+    {# JS : Pour ajouer le nombre de commentaire dans le titre principale#}
+    <script>
+        var numberOfComments = $('#number-of-comments').val();
+        if( parseInt(numberOfComments) > 0){
+            $('#number-comments').text("(" + numberOfComments + ")");
+        }
+    </script>
+
 {% endblock %}
+

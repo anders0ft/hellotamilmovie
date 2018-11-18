@@ -1,0 +1,74 @@
+<div class="comment-sets">
+    <input type="hidden" id="number-of-comments" value="{{ number_of_comments }}"/>
+    {% for key,comments in comments_list %}
+        {% if comments.children is empty and comments.parent is empty %}
+            {# Display only comments without children#}
+            <div class="comment border-block">
+                <div class="comment__images">
+                    <i style="color: #ffd564;" class="fa fa-user fa-3x"></i>
+                </div>
+                <a class="comment__author"> {{ comments.user.username }}</a>
+                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+                <p class="comment__date">{{ comments.date.date|date("d/m/Y") }} at {{ comments.date.date|date("H:i") }}</p>
+                <p class="comment__message">{{ comments.comment }}</p>
+                <a data-action="{{ path('htm_movie_comment_list', {'iIdFilm':comments.film.id, 'iIdCommentParent':comments.id}) }}" data-parent="{{ comments.id }}" data-film="{{ comments.film.id }}" class="comment__reply">Reply</a>
+
+                {{ render(controller("HTMCinemaBundle:Cinema:comments", {'iIdFilm' : comments.film.id, 'iIdCommentParent' : comments.id,  'bVisible' : false, })) }}
+
+            </div>
+        {% elseif comments.children is not empty %}
+            {# Display parent and children #}
+            <div class="comment">
+                <div class="comment__images">
+                    <i style="color: #ffd564;" class="fa fa-user fa-3x"></i>
+                </div>
+                <a class="comment__author"> {{ comments.user.username }}</a>
+                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+                <p class="comment__date">{{ comments.date.date|date("d/m/Y") }} at {{ comments.date.date|date("H:i") }}</p>
+                <p class="comment__message">{{ comments.comment }}</p>
+                <a data-action="{{ path('htm_movie_comment_list', {'iIdFilm':comments.film.id, 'iIdCommentParent':comments.id}) }}" data-parent="{{ comments.id }}" data-film="{{ comments.film.id }}" class="comment__reply">Reply</a>
+            </div>
+
+            {% for key,child in comments.children %}
+                <div class="comment comment--answer {% if loop.last %} border-block {% endif %}">
+                    <div class="comment__images">
+                        <i style="color: #7f9fb3;" class="fa fa-user fa-3x"></i>
+                    </div>
+                    <a class="comment__author"> {{ child.user.username }}</a>
+                    {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+                    <p class="comment__date">{{ child.date.date|date("d/m/Y") }} at {{ child.date.date|date("H:i") }}</p>
+                    <p class="comment__message">{{ child.comment }}</p>
+                </div>
+            {% endfor %}
+
+            {{ render(controller("HTMCinemaBundle:Cinema:comments", {'iIdFilm' : comments.film.id, 'iIdCommentParent' : comments.id, 'bVisible' : false,})) }}
+
+        {% endif %}
+
+    {% endfor %}
+</div>
+
+<script type="application/javascript">
+
+    // Action to display comment block of parent
+    $('.comment__reply').on( "click", function(){
+
+        var parent_id = $(this).data('parent');
+        var film_id = parseInt($(this).data('film'));
+        var acitonCommentList = $(this).data('action');
+
+        $.ajax({
+            url: acitonCommentList,
+            type: 'POST',
+            data:JSON.stringify(""),
+            success: function (data, textStatus, jqXHR) {
+                if(data.parent_id == parent_id){
+                    $('*[id^="comment-block-"]').hide();
+                    $('#comment-block-' + parent_id).show();
+                }
+            }
+        });
+    });
+
+
+</script>

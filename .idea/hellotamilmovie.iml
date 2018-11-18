@@ -50,5 +50,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="andersoft" />
+    <orderEntry type="module" module-name="test" />
+    <orderEntry type="module" module-name="urgence" />
   </component>
 </module>

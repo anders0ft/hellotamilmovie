@@ -60,41 +60,77 @@ class CinemaController extends Controller
     /**
      * Action sera appelée lors d'ajout d'un commentaire
      * @param Request $request
+     * @param $iIdFilm
+     * @param $iIdCommentParent
+     * @param $bVisible
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function commentsAction(Request $request, $id)
+    public function commentsAction(Request $request, $iIdFilm, $iIdCommentParent=null, $bVisible=true)
     {
         $em = $this->getDoctrine()->getManager();
         $comment = new Comments();
-        $film = $em->getReference('HTMCinemaBundle:Film', $id);
+
+        $film = $em->getReference('HTMCinemaBundle:Film', $iIdFilm);
         $comment->setFilm($film);
-        $form = $this->createForm(CommentsType::class, $comment, array('action' => $this->generateUrl('htm_movie_comment', array('id' => $id))));
+
+        if (!empty($iIdCommentParent)){
+            $comment->setParent($em->getReference('HTMCinemaBundle:Comments', $iIdCommentParent));
+            $aParamRoute = array('iIdFilm' => $iIdFilm, 'iIdCommentParent' => $iIdCommentParent);
+        }else{
+            // with default ParentId to avoid Routing Exception
+            $aParamRoute = array('iIdFilm' => $iIdFilm, 'iIdCommentParent' => 0);
+        }
+
+        $form = $this->createForm(CommentsType::class, $comment, array('action' => $this->generateUrl('htm_movie_comment', $aParamRoute)));
 
         if ($form->handleRequest($request)->isValid() && $request->isMethod('POST')){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'your comment successfully sent');
+            $user = $this->getUser();
+            if($user == null) {
+                return $this->redirect($this->generateUrl('fos_user_security_login'));
+            }else {
+                $film = $em->getReference('HTMCinemaBundle:Film', $iIdFilm);
+                $comment->setFilm($film);
+                $comment->setUser($user);
+                // On récupère l'adresse IP d'utilisateur
+                $addressIp = $request->getClientIp();
+                $comment->setIpaddress($addressIp);
 
-            // Redirection si tout est OK
-            return $this->redirect($this->generateUrl('htm_movie_singlepage', array('id' => $id)));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($comment);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'your comment successfully posted !');
+
+                // Redirection si tout est OK
+                return $this->redirect($this->generateUrl('htm_movie_singlepage', array('id' => $iIdFilm)));
+            }
         }
 
         // On envoit le formulaire à la vue
-    	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig', array('form' => $form->createView()));
+    	return $this->render('HTMCinemaBundle:Cinema:comments.html.twig', array('form' => $form->createView(), 'actif' => $bVisible, 'parent_id' => $iIdCommentParent));
     }
 
-    public function commentsListAction(Request $request, $id)
+    public function commentsListAction(Request $request, $iIdFilm, $iIdCommentParent=null)
     {
         $em = $this->getDoctrine()->getManager();
-        $film = $em->getReference('HTMCinemaBundle:Film', $id);
+        $film = $em->getReference('HTMCinemaBundle:Film', $iIdFilm);
 
         $commentsList = array();
-        $commentsList = $em->getRepository('HTMCinemaBundle:Comments')->findBy(array('film' => $film));
+        $commentsList = $em->getRepository('HTMCinemaBundle:Comments')->findBy(array('film' => $film), array('id' => 'DESC'));
+
+        // Verification to active comment block during Reply Action
+        if($request->isXmlHttpRequest()){
+            if (!empty($iIdCommentParent)){
+                return new JsonResponse(['parent_id' => $iIdCommentParent]);
+            }else{
+                return new JsonResponse(['parent_id' => "ERROR"]);
+            }
+        }
 
         return $this->render('HTMCinemaBundle:Cinema:commentslist.html.twig',
-                                    array('comments_list' => $commentsList, 'number_of_comments' => count($commentsList)));
+                                    array(  'comments_list' => $commentsList,
+                                            'number_of_comments' => count($commentsList)));
     }
     
     public function sliderAction()
@@ -211,7 +247,7 @@ class CinemaController extends Controller
     	
     }
     
-    public function ratyAction($idFilm)
+    public function ratyAction($iIdFilm, $iIdUser=null)
     {
     	$user = $this->getUser();
     	if($user != null) {
@@ -219,14 +255,14 @@ class CinemaController extends Controller
     		$rate = $this	->getDoctrine()
 					    	->getManager()
 					    	->getRepository('HTMCinemaBundle:Vote')
-					    	->findRateByUserAndFilm($userId, $idFilm);
+					    	->findRateByUserAndFilm($userId, $iIdFilm);
     	}
     	
     	if (!empty($rate)) {
-    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate[0]['rate'], 'filmId' => $idFilm));
+    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate[0]['rate'], 'filmId' => $iIdFilm));
     	}
     	else {
-    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('filmId' => $idFilm));
+    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('filmId' => $iIdFilm));
     	}
     }
 }

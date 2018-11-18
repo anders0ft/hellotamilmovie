@@ -10,4 +10,13 @@ namespace HTM\CinemaBundle\Repository;
  */
 class CommentsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByFilm($film)
+    {
+        return $this->createQueryBuilder('c')
+                    ->select("c.comment")
+                    ->where('c.film = :film')
+                    ->setParameters(array('film'=>$film))
+                    ->getQuery()
+                    ->getResult();
+    }
 }
