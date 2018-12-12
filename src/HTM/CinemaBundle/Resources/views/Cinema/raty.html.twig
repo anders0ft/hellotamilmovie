@@ -1,8 +1,11 @@
-{% if rate is defined %}
+{#{% if rate is defined %}
+    {{ rate }} / {{ filmId }}
 	<div id="your-vote" class="score" data-yourrate="{{ rate }}" data-id="{{ filmId }}"></div>
 {% else %}
 	<div id="your-vote" class="score" data-yourrate="{{ 0 }}" data-id="{{ filmId }}"></div>
-{% endif %}
+{% endif %}#}
+
+<div id="your-vote-{{ rate }}-{{ iIdFilm }}-{{ iIdUser }}" class="score" data-yourrate="{{ rate }}" data-id="{{ iIdFilm }}"></div>
 
 {#
 <div class="score score_{{ film.id }}" data-id="{{ film.id }}"></div>#}

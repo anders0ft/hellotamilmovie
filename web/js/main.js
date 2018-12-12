@@ -1,30 +1,5 @@
 
 $(document).ready(function() {
-	
-	// For single movie page
-	var yourrate = $('#your-vote').data('yourrate');
-    $('.score').raty({
-        width:130, 
-        score: yourrate,
-        click : function(number, evt){
-        	$.ajax({
-        		url: "vote",
-                type: 'POST',
-                data: {"rate":number, "id":$(this).data('id')},
-                success: function (data, textStatus, jqXHR) 
-                {
-                	if(data.message == "LOGIN")
-                	{
-                		
-                		location.href = "http://localhost/hellotamilmovie/web/app_dev.php/login";
-                	}
-                }
-            });
-  	  	},
-        path: '../../images/rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
 
     // For all movies page
 	var scoreClasses = $('div[class*="score_"]');
@@ -46,9 +21,35 @@ $(document).ready(function() {
 	
 });
 
+function getIdToGenerateStars(iRate, iIdDiv, oThisObject){
+
+    $(oThisObject).raty({
+        width:130,
+        score: iRate,
+        click : function(number, evt){
+            $.ajax({
+                url: "vote",
+                type: 'POST',
+                data: {"rate":number, "id":$('#' + iIdDiv).data('id')},
+                success: function (data, textStatus, jqXHR)
+                {
+                    if(data.message == "LOGIN")
+                    {
+
+                        location.href = "http://localhost/hellotamilmovie/web/app_dev.php/login";
+                    }
+                }
+            });
+        },
+        path: '../../images/rate/',
+        starOff : 'star-off.svg',
+        starOn  : 'star-on.svg'
+    });
+}
+
 //Enregistrement de vote
-function saveVote(p_rate, p_id)
-{
+function saveVote(p_rate, p_id) {
+
 	$.ajax({
 		url: "movie/vote",
         type: 'POST',

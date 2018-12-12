@@ -8,7 +8,7 @@
                     <i style="color: #ffd564;" class="fa fa-user fa-3x"></i>
                 </div>
                 <a class="comment__author"> {{ comments.user.username }}</a>
-                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id, 'iIdOtherUser': comments.user.id})) }}
                 <p class="comment__date">{{ comments.date.date|date("d/m/Y") }} at {{ comments.date.date|date("H:i") }}</p>
                 <p class="comment__message">{{ comments.comment }}</p>
                 <a data-action="{{ path('htm_movie_comment_list', {'iIdFilm':comments.film.id, 'iIdCommentParent':comments.id}) }}" data-parent="{{ comments.id }}" data-film="{{ comments.film.id }}" class="comment__reply">Reply</a>
@@ -23,7 +23,7 @@
                     <i style="color: #ffd564;" class="fa fa-user fa-3x"></i>
                 </div>
                 <a class="comment__author"> {{ comments.user.username }}</a>
-                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+                {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id, 'iIdOtherUser': comments.user.id})) }}
                 <p class="comment__date">{{ comments.date.date|date("d/m/Y") }} at {{ comments.date.date|date("H:i") }}</p>
                 <p class="comment__message">{{ comments.comment }}</p>
                 <a data-action="{{ path('htm_movie_comment_list', {'iIdFilm':comments.film.id, 'iIdCommentParent':comments.id}) }}" data-parent="{{ comments.id }}" data-film="{{ comments.film.id }}" class="comment__reply">Reply</a>
@@ -35,7 +35,9 @@
                         <i style="color: #7f9fb3;" class="fa fa-user fa-3x"></i>
                     </div>
                     <a class="comment__author"> {{ child.user.username }}</a>
-                    {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id})) }}
+
+                    {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': comments.film.id, 'iIdOtherUser': child.user.id})) }}
+
                     <p class="comment__date">{{ child.date.date|date("d/m/Y") }} at {{ child.date.date|date("H:i") }}</p>
                     <p class="comment__message">{{ child.comment }}</p>
                 </div>

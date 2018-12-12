@@ -12,6 +12,7 @@ use \Symfony\Component\HttpFoundation\JsonResponse;
 use HTM\CinemaBundle\Entity\Vote;
 use HTM\CinemaBundle\Event\VoteUpdateEvent;
 use HTM\CinemaBundle\Event\CinemaEvents;
+use HTM\CinemaBundle\Repository\VoteRepository;
 
 
 
@@ -204,31 +205,36 @@ class CinemaController extends Controller
      */
     public function voteAction(Request $request)
     {
+        // Getting id => idFilm and rate from POST
     	extract($_POST);
+
     	if ($request->isMethod('POST') and $request->isXmlHttpRequest()) {
-    		$user = $this->getUser();
-    		if($user == null) {
+    		$oUser = $this->getUser();
+    		if($oUser == null) {
     			return new JsonResponse(array('message' => "LOGIN"));
     		}
     		else {
-    			//$user->setRoles("");
-    			$userId = $user->getId();
-    			$idVote = $this	->getDoctrine()
-				    			->getManager()
-				    			->getRepository('HTMCinemaBundle:Vote')
-				    			->findByUserAndFilm($userId, $id);
+
+    			$iUserId = $oUser->getId();
+
+                $oVote = $this->getDoctrine()
+                                    ->getManager()
+                                    ->getRepository('HTMCinemaBundle:Vote')
+                                    ->findOneBy(array('user' => $iUserId, 'film' => $id));
+
+                $iId = $oVote->getId();
 
     			$em = $this->getDoctrine()->getManager();
     			// Le cas où l'utilisateur n'a jamais voté pour ce film
-    			if (empty($idVote[0]['id'])) {
+    			if (empty($iId)) {
     				$vote = new Vote();
     				$vote->setFilm($em->getReference('HTMCinemaBundle:Film', $id));
-    				$vote->setUser($user);
+    				$vote->setUser($oUser);
     				$vote->setRate($rate);
     				$em->persist($vote);
     			}
     			else {
-    				$vote = $em->getRepository('HTMCinemaBundle:Vote')->find($idVote[0]['id']);
+    				$vote = $em->getRepository('HTMCinemaBundle:Vote')->find($iId);
     				$vote->setRate($rate);
     				$vote->setDate(new \DateTime());
     			}
@@ -246,24 +252,46 @@ class CinemaController extends Controller
     	}
     	
     }
-    
-    public function ratyAction($iIdFilm, $iIdUser=null)
+
+    /**
+     * Generate Stars using Raty JS
+     * @param int $iIdFilm
+     * @param int $iIdOtherUser -> Put null if you want to display Ration of user connected
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ratyAction($iIdFilm, $iIdOtherUser=null, $bUserConnected=false)
     {
-    	$user = $this->getUser();
-    	if($user != null) {
-    		$userId = $user->getId();
-    		$rate = $this	->getDoctrine()
-					    	->getManager()
-					    	->getRepository('HTMCinemaBundle:Vote')
-					    	->findRateByUserAndFilm($userId, $iIdFilm);
-    	}
-    	
-    	if (!empty($rate)) {
-    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate[0]['rate'], 'filmId' => $iIdFilm));
-    	}
-    	else {
-    		return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('filmId' => $iIdFilm));
-    	}
+        $oUser = $this->getUser();
+        // Case for an user logged
+        if (!empty($oUser) && $bUserConnected){
+
+            $oVote = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('HTMCinemaBundle:Vote')
+                            ->findOneBy(array('user' => $oUser->getId(), 'film' => $iIdFilm));
+
+            $rate = $oVote->getRate();
+            return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
+
+        } elseif (!empty($iIdOtherUser)){ // Case for an user id given in view
+
+            $oUser = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('HTMUserBundle:User')
+                            ->find($iIdOtherUser);
+
+            $oVote = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('HTMCinemaBundle:Vote')
+                            ->findOneBy(array('user' => $oUser->getId(), 'film' => $iIdFilm));
+
+            $rate = $oVote->getRate();
+            return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
+
+        } else { // Case for 0 Rate
+
+            return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => 0, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
+        }
     }
 }
 
