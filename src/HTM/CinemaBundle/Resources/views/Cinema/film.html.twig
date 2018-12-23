@@ -52,8 +52,9 @@
     
                 <div class="preview-footer">
                     <div class="movie__rate">
-                        <div class="score score_{{ film.id }}" data-id="{{ film.id }}"></div>
-                        <span class="movie__rate-number">170 votes</span> 
+                        {#<div class="score score_{{ film.id }}" data-id="{{ film.id }}"></div>#}
+                        {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': film.id, 'iIdOtherUser': null, 'bUserConnected': false})) }}
+                        <span class="movie__rate-number">170 votes</span>
                         <span class="movie__rating rate_{{ film.id }}" data-rate="{{ film.stars|number_format(1, '.', '') }}">{{ film.stars|number_format(1, '.', '') }}</span>
                     </div>
                 </div>
@@ -66,7 +67,7 @@
             <a href='#' class="pagination__next">next</a>
         </div>
     </div>
-    
+
 </div>
 <aside class="col-sm-4 col-md-3">
 	<div class="sitebar">
@@ -76,4 +77,16 @@
         {{ render(controller("HTMCinemaBundle:Cinema:mostdiscussed")) }}
     </div>
 </aside>
+
+    <script>
+        {# JS : Pour ajouer le nombre de commentaire dans le titre principale#}
+        $(document).ready(function() {
+            // Rating by stars
+            // For single movie page
+            $('div.score').each(function (i, d) {
+                var yourrate = $('#' + d.id).data('yourrate');
+                getIdToGenerateStars(yourrate, d.id, this);
+            });
+        });
+    </script>
 {% endblock %}

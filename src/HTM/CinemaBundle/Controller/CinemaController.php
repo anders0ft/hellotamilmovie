@@ -4,6 +4,7 @@ namespace HTM\CinemaBundle\Controller;
 
 
 use HTM\CinemaBundle\Entity\Comments;
+use HTM\CinemaBundle\Entity\Film;
 use HTM\CinemaBundle\Form\CommentsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -257,6 +258,7 @@ class CinemaController extends Controller
      * Generate Stars using Raty JS
      * @param int $iIdFilm
      * @param int $iIdOtherUser -> Put null if you want to display Ration of user connected
+     * @param bool $bUserConnected
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function ratyAction($iIdFilm, $iIdOtherUser=null, $bUserConnected=false)
@@ -288,7 +290,20 @@ class CinemaController extends Controller
             $rate = $oVote->getRate();
             return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
 
-        } else { // Case for 0 Rate
+        }
+
+        elseif ((empty($iIdOtherUser)) && (!$bUserConnected)){
+
+            /** @var Film $oFilm */
+            $oFilm = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('HTMCinemaBundle:Film')
+                            ->find($iIdFilm);
+
+            $rate = $oFilm->getStars();
+            return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => $rate, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
+
+        }else { // Case for 0 Rate
 
             return $this->render('HTMCinemaBundle:Cinema:raty.html.twig', array('rate' => 0, 'iIdFilm' => $iIdFilm, 'iIdUser' => $iIdOtherUser));
         }

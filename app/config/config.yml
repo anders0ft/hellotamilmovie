@@ -81,3 +81,6 @@ fos_user:
             from_email:
                 address: jacobjerryanderson@gmail.com
                 sender_name: HelloTamilMovie
+    registration:
+            form:
+                type: HTM\UserBundle\Form\RegistrationType

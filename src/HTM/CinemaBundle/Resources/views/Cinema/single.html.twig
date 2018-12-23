@@ -15,7 +15,7 @@
                     <span class="movie__rating">{{ film[0].stars }}</span>
                     <img alt='' src="{{ asset('images/cinema/') }}{{ film[0].imagesingleview }}">
                 </div>
-                <div class="movie__rate">Your vote: {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': film[0].id, 'iIdOtherUser': null, 'bUserConnected': 1})) }}</div>
+                <div class="movie__rate">Your vote: {{ render(controller("HTMCinemaBundle:Cinema:raty", {'iIdFilm': film[0].id, 'iIdOtherUser': null, 'bUserConnected': true})) }}</div>
             </div>
 
             <div class="col-sm-6 col-md-8">
@@ -80,11 +80,6 @@
 
 
     <script>
-        {# JS : Pour ajouer le nombre de commentaire dans le titre principale#}
-        var numberOfComments = $('#number-of-comments').val();
-        if( parseInt(numberOfComments) > 0){
-            $('#number-comments').text("(" + numberOfComments + ")");
-        }
 
         $(document).ready(function() {
             // Rating by stars

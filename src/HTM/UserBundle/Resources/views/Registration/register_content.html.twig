@@ -1,0 +1,27 @@
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'login', 'id':'login-form'} }) }}
+{# Les erreurs générales du formulaire. #}
+{{ form_errors(form) }}
+
+<div class="field-wrap">
+
+    <p class="login__title">New fan <br><span class="login-edition">welcome to Hello Tamil Movie Web Site</span></p>
+
+    {{ form_widget(form.name, {'attr': {'class': 'login__input', 'placeholder':'Your name'}}) }}
+
+    {{ form_widget(form.email, {'attr': { 'class': 'login__input', 'placeholder':'Email'}}) }}
+    {{ form_widget(form.username, {'attr': { 'class': 'login__input', 'placeholder':'User name'}}) }}
+    {{ form_widget(form.plainPassword, {'attr': { 'class': 'login__input', 'placeholder':'Password'}}) }}
+
+</div>
+<br>
+<div class="login__control">
+    {{ form_widget(form.registration, {'attr': {'class': 'btn btn-md btn--warning btn--wider'}}) }}
+</div>
+
+{{ form_rest(form) }}
+
+{{ form_end(form) }}

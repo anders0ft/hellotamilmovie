@@ -36,7 +36,7 @@ function getIdToGenerateStars(iRate, iIdDiv, oThisObject){
                     if(data.message == "LOGIN")
                     {
 
-                        location.href = "http://localhost/hellotamilmovie/web/app_dev.php/login";
+                        location.href = "login";
                     }
                 }
             });
